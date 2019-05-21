@@ -34,7 +34,8 @@ namespace Analizer.NetCore
             });
 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<FireRiskContext>(option => option.UseSqlServer(connectionString));
+            services.AddDbContext<FireRiskContext>(options => options.UseSqlServer(connectionString));
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
