@@ -8,7 +8,8 @@ namespace Analizer.NetCore.Services
     public interface IDataRiderMeneger
     {
         Task GetDataAndFillDb();
-        Task GetDataForYearAndFillDb(int year);
+        Task GetDataByYearAndFillDb(int year);
+        Task DeleteAsync();
 
     }
 }

@@ -13,48 +13,86 @@ namespace Analizer.NetCore.Services
         {
             _context = context;
         }
-        
-        public async Task GetDataAndFillDb()
-        {
-            City[] c =_context.Cities.ToArray();
-            List<DataItam> datas = new List<DataItam>();//read data from db orderby date
-            FireRiskItam[] fireRiskArr = _context.Itams.OrderBy(i => i.Day).TakeLast(11).ToArray();
-            List<FireRiskItam> fireRiskItams = new List<FireRiskItam>();
-            foreach(DataItam  d in datas)
-            {
-                for(int i = 0; i < c.Length; i++)
-                {
-                    if(d.City == c[i].Name)
-                    {
-                        FireRiskItam itm = new FireRiskItam()
-                        {
-                            Day = d.Day,
-                            CityId = c[i].Id,
-                            Precipitation = d.Precipitation > 3 ? d.Precipitation : 0,
-                            DewPoint = d.DewPoint,
-                            Temperature = d.Temperature,
-                            CompIndicatorDay = d.Temperature * (d.Temperature - d.DewPoint),
-                            CompIndicator = d.Temperature * (d.Temperature - d.DewPoint) + (d.Precipitation > 3 ? 0 : fireRiskArr.Single(j => j.CityId == c[i].Id).CompIndicator)
-                        };
 
-                        for(int k = 0; k < fireRiskArr.Length; k++)
-                        {
-                            if(fireRiskArr[i].CityId == itm.CityId)
-                            {
-                                fireRiskArr[i] = itm;
-                            }
-                        }
-                        fireRiskItams.Add(itm);
-                        break;
-                    }
-                }
-            }
-            await _context.Itams.AddRangeAsync(fireRiskItams);
+        public async Task DeleteAsync()
+        {
+            _context.RemoveRange(_context.Itams.Where(itm => itm.Day.Year != DateTime.Now.Year));
+            await _context.SaveChangesAsync();
         }
 
-        public Task GetDataForYearAndFillDb(int year)
+        public async Task GetDataAndFillDb()
         {
-            throw new NotImplementedException();
+            List<DataItam> datas = new List<DataItam>(); //add part read form db
+            List<FireRiskItam> addingItams = new List<FireRiskItam>();
+            DateTime lastDay = _context.Itams.OrderBy(i => i.Day).Last().Day;
+            City[] citys = _context.Cities.ToArray();
+            for(int i = 0; i < citys.Length; i++)
+            {
+                var d = datas.Where(itm => itm.Day > lastDay)
+                    .Where(itm => itm.City == citys[i].Name).OrderBy(itm => itm.Day).ToArray();
+                var lastKPItam = _context.Itams.Where(itm => itm.CityId == citys[i].Id).OrderBy(itm=>itm.Day).Last();
+
+                double lastKP = 0.0;
+
+                if (lastKPItam != null)
+                {
+                     lastKP = lastKPItam.CompIndicator;
+                }
+
+                for (int j = 0; j < d.Length; j++)
+                {
+                    FireRiskItam itam = new FireRiskItam()
+                    {
+                        Day = d[j].Day,
+                        CityId = citys[i].Id,
+                        Precipitation = d[j].Precipitation > 3 ? d[j].Precipitation : 0,
+                        DewPoint = d[j].DewPoint,
+                        Temperature = d[j].Temperature,
+                        CompIndicatorDay = d[j].Temperature * (d[j].Temperature - d[j].DewPoint),
+                        CompIndicator = d[j].Temperature * (d[j].Temperature - d[j].DewPoint) + (d[j].Precipitation > 3 ? 0 : lastKP)
+                    };
+                    itam.ClassOfFireRisk =(byte) (itam.CompIndicator < 301 ? 1
+                        : itam.CompIndicator < 1001 ? 2
+                        : itam.CompIndicator < 4001 ? 3
+                        : itam.CompIndicator < 10001 ? 4
+                        : 5);
+                    lastKP = itam.CompIndicator;
+                    addingItams.Add(itam);
+
+                }
+            }
+            await _context.Itams.AddRangeAsync(addingItams);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task GetDataByYearAndFillDb(int year)
+        {
+            List<DataItam> datas = new List<DataItam>();//Add part read from db
+            List<FireRiskItam> addingItams = new List<FireRiskItam>();
+            City[] citys = _context.Cities.ToArray();
+            for (int i = 0; i < citys.Length; i++)
+            {
+                var d = datas.Where(itm => itm.City == citys[i].Name).OrderBy(itm => itm.Day).ToArray();
+                var lastKP = 0.0;
+                for (int j = 0; j < d.Length; j++)
+                {
+                    FireRiskItam itam = new FireRiskItam()
+                    {
+                        Day = d[j].Day,
+                        CityId = citys[i].Id,
+                        Precipitation = d[j].Precipitation > 3 ? d[j].Precipitation : 0,
+                        DewPoint = d[j].DewPoint,
+                        Temperature = d[j].Temperature,
+                        CompIndicatorDay = d[j].Temperature * (d[j].Temperature - d[j].DewPoint),
+                        CompIndicator = d[j].Temperature * (d[j].Temperature - d[j].DewPoint) + (d[j].Precipitation > 3 ? 0 : lastKP)
+                    };
+                    lastKP = itam.CompIndicator;
+                    addingItams.Add(itam);
+
+                }
+            }
+            await _context.Itams.AddRangeAsync(addingItams);
+            await _context.SaveChangesAsync();
         }
     }
 }
