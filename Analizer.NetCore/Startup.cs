@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Analizer.NetCore.Models;
+using Analizer.NetCore.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -35,6 +36,9 @@ namespace Analizer.NetCore
 
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<FireRiskContext>(options => options.UseSqlServer(connectionString));
+
+            services.AddScoped<IDataRiderMeneger, DataRiderMeneger>();
+            services.AddScoped<IFireRiskMeneger, FireRiskMeneger>();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
