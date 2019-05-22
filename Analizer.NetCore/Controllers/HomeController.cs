@@ -5,14 +5,23 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Analizer.NetCore.Models;
+using Analizer.NetCore.Services;
 
 namespace Analizer.NetCore.Controllers
 {
     public class HomeController : Controller
     {
+        private IFireRiskMeneger _meneger;
+        public HomeController(IFireRiskMeneger meneger)
+        {
+            _meneger = meneger;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            _meneger.DeleteHistory();
+            List<FireRiskItam> model = _meneger.GetToDayItams().ToList();
+            return View(model);
         }
 
         public IActionResult About()
