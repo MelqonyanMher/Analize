@@ -13,5 +13,7 @@ namespace Analizer.NetCore.Services
         IEnumerable<FireRiskItam> GetCityItam(string cityName);
 
         IEnumerable<FireRiskItam> GetCityItam(string cityName,int year);
+
+        void DeleteHistory();
     }
 }

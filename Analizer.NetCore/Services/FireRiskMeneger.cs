@@ -16,6 +16,12 @@ namespace Analizer.NetCore.Services
             _context = context;
             _dataReader = dataReader;
         }
+
+        public void DeleteHistory()
+        {
+            _dataReader.DeleteAsync();
+        }
+
         public  IEnumerable<FireRiskItam> GetCityItam(string cityName)
         {
              _dataReader.GetDataAndFillDb();
