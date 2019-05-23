@@ -37,7 +37,7 @@ namespace Analizer.NetCore
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<FireRiskContext>(options => options.UseSqlServer(connectionString));
 
-            services.AddScoped<IDataRiderMeneger, DataRiderMeneger>();
+            services.AddScoped<IDbFillMeneger, DbFillMeneger>();
             services.AddScoped<IFireRiskMeneger, FireRiskMeneger>();
 
 

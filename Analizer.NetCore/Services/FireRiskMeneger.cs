@@ -10,8 +10,8 @@ namespace Analizer.NetCore.Services
     public class FireRiskMeneger : IFireRiskMeneger
     {
         private FireRiskContext _context;
-        private IDataRiderMeneger _dataReader;
-        public FireRiskMeneger(FireRiskContext context,IDataRiderMeneger dataReader)
+        private IDbFillMeneger _dataReader;
+        public FireRiskMeneger(FireRiskContext context,IDbFillMeneger dataReader)
         {
             _context = context;
             _dataReader = dataReader;

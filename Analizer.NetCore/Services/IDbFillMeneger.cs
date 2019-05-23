@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Analizer.NetCore.Services
 {
-    public interface IDataRiderMeneger
+    public interface IDbFillMeneger
     {
         Task GetDataAndFillDb();
         Task GetDataByYearAndFillDb(int year);

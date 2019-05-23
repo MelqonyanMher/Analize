@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Analizer.NetCore.Services
 {
-    public class DataRiderMeneger : IDataRiderMeneger
+    public class DbFillMeneger : IDbFillMeneger
     {
         private FireRiskContext _context;
-        public DataRiderMeneger(FireRiskContext context)
+        public DbFillMeneger(FireRiskContext context)
         {
             _context = context;
         }
