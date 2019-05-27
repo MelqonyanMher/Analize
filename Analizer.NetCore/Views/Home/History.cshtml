@@ -1,0 +1,39 @@
+﻿@model System.Collections.Generic.List<FireRiskItam>;
+
+@{
+    ViewData["Title"] = "Contact";
+}
+<h2>@Model[0].City.Name</h2>
+<h3>@Model[0].Day.Year</h3>
+@{ 
+    <table border="1">
+        <thead>
+            <tr>
+            <th>Օր</th>
+            <th>Ջերմացտիճան</th>
+            <th>Խոնավություն</th>
+            <th>Օրվա կայֆիցիենտը</th>
+            <th>Տաղում ՄՄ</th>
+            <th>Կայֆիցիենտ</th>
+            <th>Հրդեհավտանգություն</th>
+            </tr>
+        </thead>
+            <tbody>
+                @{
+                    foreach (var itam in Model)
+                    {
+                        <tr>
+                        <td>@itam.Day.Day/@itam.Day.Month</td>
+                        <td>@itam.Temperature</td>
+                        <td>@itam.DewPoint</td>
+                        <td>@itam.CompIndicatorDay</td>
+                        <td>@itam.Precipitation</td>
+                        <td>@itam.CompIndicator</td>
+                        <td>@itam.ClassOfFireRisk</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+    </table>
+}
+

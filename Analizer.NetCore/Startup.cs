@@ -42,15 +42,40 @@ namespace Analizer.NetCore
 
             services.AddScoped<IDbFillMeneger, DbFillMeneger>();
             services.AddScoped<IFireRiskMeneger, FireRiskMeneger>();
+            services.AddScoped<IDataReaderFromBaseDb, DataReaderFromBaseDb>();
+
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
+        static void FillCityDb(FireRiskContext context)
+        {
+            if (context.Cities.FirstOrDefault() == null)
+            {
+                string[] cities = { "Yerevan", "Gyumri", "Vanadzor", "Ijevan", "Ashtarak", "Hrazdan", "Gavar", "Armavir", "Artashat", "Exegnadzor", "Kapan" };
+                List<City> citys = new List<City>();
+
+                foreach (string city in cities)
+                {
+                    citys.Add(new City
+                    {
+                        Name = city
+                    });
+                }
+
+                context.Cities.AddRange(citys);
+                context.SaveChanges();
+            }
+            else return;
+        }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,FireRiskContext context)
         {
             context.Database.Migrate();
+
+            FillCityDb(context);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -31,16 +31,27 @@ namespace Analizer.NetCore.Controllers
             return View();
         }
 
-        public IActionResult Contact()
+        public IActionResult History(int year = 2019, string city = "Yerevan")
         {
             ViewData["Message"] = "Your contact page.";
-
-            return View();
+            List<FireRiskItam> model;
+            if(year == DateTime.Now.Year)
+            {
+                model = _meneger.GetCityItam(city).ToList();
+            }
+            else
+            {
+                model = _meneger.GetCityItam(city, year).ToList();
+            }
+            
+            return View(model);
         }
 
         public IActionResult Privacy()
         {
-            return View();
+            _meneger.DeleteHistory();
+            List<FireRiskItam> model = _meneger.GetToDayItams().ToList();
+            return View(model);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

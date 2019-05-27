@@ -10,33 +10,37 @@ namespace Analizer.NetCore.Services
     public class FireRiskMeneger : IFireRiskMeneger
     {
         private FireRiskContext _context;
-        private IDbFillMeneger _dataReader;
-        public FireRiskMeneger(FireRiskContext context,IDbFillMeneger dataReader)
+        private IDbFillMeneger _dbFill;
+        public FireRiskMeneger(FireRiskContext context,IDbFillMeneger dataFill)
         {
             _context = context;
-            _dataReader = dataReader;
+            _dbFill = dataFill;
         }
 
         public void DeleteHistory()
         {
-            _dataReader.DeleteAsync();
+            _dbFill.DeleteAsync().Wait();
         }
 
         public  IEnumerable<FireRiskItam> GetCityItam(string cityName)
         {
-             _dataReader.GetDataAndFillDb();
-             return _context.Itams.Include(itm => itm.City).Where(itm => itm.City.Name.ToUpper() == cityName.ToUpper());
+             _dbFill.GetDataAndFillDbAsync().Wait();
+             return _context.Itams.Include(itm => itm.City)
+                .Where(itm => itm.City.Name.ToUpper() == cityName.ToUpper());
         }
         public IEnumerable<FireRiskItam> GetCityItam(string cityName,int year)
         {
-            _dataReader.GetDataByYearAndFillDb(year);
-            return _context.Itams.Include(itm => itm.City).Where(itm => itm.City.Name.ToUpper() == cityName.ToUpper());
+            _dbFill.GetDataByYearAndFillDbAsync(year).Wait();
+            return _context.Itams.Include(itm => itm.City)
+                .Where(itm => itm.City.Name.ToUpper() == cityName.ToUpper() 
+                && itm.Day.Year==year)
+                .OrderBy(itm=>itm.Day);
         }
 
         public IEnumerable<FireRiskItam> GetToDayItams()
         {
-            _dataReader.GetDataAndFillDb();
-            return _context.Itams.Where(itm => itm.Day.Day == DateTime.Now.Day);
+             _dbFill.GetDataAndFillDbAsync().Wait();
+            return _context.Itams.Where(itm => itm.Day.DayOfYear == DateTime.Now.DayOfYear+10).Include(itm=>itm.City);
         }
     }
 }

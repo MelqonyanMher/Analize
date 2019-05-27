@@ -7,8 +7,8 @@ namespace Analizer.NetCore.Services
 {
     public interface IDbFillMeneger
     {
-        Task GetDataAndFillDb();
-        Task GetDataByYearAndFillDb(int year);
+        Task GetDataAndFillDbAsync();
+        Task GetDataByYearAndFillDbAsync(int year);
         Task DeleteAsync();
 
     }
