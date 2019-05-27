@@ -20,7 +20,7 @@ namespace Analizer.NetCore.Controllers
         public IActionResult Index()
         {
             _meneger.DeleteHistory();
-            List<FireRiskItam> model = _meneger.GetToDayItams().ToList();
+            List<FireRiskItam> model = _meneger.GetToDayItams().OrderBy(itm=>itm.City.Name).ToList();
             return View(model);
         }
 
