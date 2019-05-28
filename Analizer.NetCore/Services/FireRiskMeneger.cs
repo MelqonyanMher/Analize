@@ -40,7 +40,7 @@ namespace Analizer.NetCore.Services
         public IEnumerable<FireRiskItam> GetToDayItams()
         {
              _dbFill.GetDataAndFillDbAsync().Wait();
-            return _context.Itams.Where(itm => itm.Day.DayOfYear == DateTime.Now.DayOfYear+10).Include(itm=>itm.City);
+            return _context.Itams.Where(itm => itm.Day.DayOfYear == DateTime.Now.DayOfYear+13).Include(itm=>itm.City);
         }
     }
 }

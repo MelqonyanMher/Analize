@@ -9,18 +9,18 @@
     stroke-width: 2px;
     transition: fill 0.3s
 }
-.mapdiv a path #1 {
+.level_1{
     fill: #0BBFA1
 }
-#2{
-    fill:#4cff00
+.level_2{
+    fill: #4cff00
 }
- path #3 {
+.level_3 {
     fill: #ffd800
 }
- path #4 {
+.level_4 {
     fill: #ff6a00
 }
- path #5 {
+.level_5 {
     fill: #ff0000
 }
