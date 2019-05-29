@@ -24,6 +24,11 @@ namespace Analizer.NetCore.Controllers
             return View(model);
         }
 
+        public IActionResult HistoryData()
+        {
+            return View(new HistoryItam());
+        }
+
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";
@@ -31,6 +36,22 @@ namespace Analizer.NetCore.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult History(HistoryItam itam)
+        {
+            ViewData["Message"] = "Your contact page.";
+            List<FireRiskItam> model = null;
+            if (itam.Year == DateTime.Now.Year)
+            {
+                model = _meneger.GetCityItam(itam.City).ToList();
+            }
+            else
+            {
+                model = _meneger.GetCityItam(itam.City, itam.Year).ToList();
+            }
+
+            return View(model);
+        }
         public IActionResult History(int year = 2019, string city = "Yerevan")
         {
             ViewData["Message"] = "Your contact page.";

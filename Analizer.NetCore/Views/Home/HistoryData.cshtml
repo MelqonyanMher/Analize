@@ -1,0 +1,51 @@
+﻿@model Analizer.NetCore.Models.HistoryItam
+
+@{
+    ViewData["Title"] = "HistoryData";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>HistoryData</h2>
+
+<h4>HistoryItam</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" >
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Year" class="control-label"></label>
+                <input asp-for="Year" min="1970" max="(@DateTime.Now.Year)" class="form-control" />
+                <span asp-validation-for="Year"  class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <select asp-for="City" class="form-control" >
+                    <option value="Yerevan" selected>Երևան</option>
+                    <option value="Gyumri">Շիրակ</option>
+                    <option value="Vanadzor">Լոռի</option>
+                    <option value="Ijevan">Տավուշ</option>
+                    <option value="Ashtarak">Արագածոտն</option>
+                    <option value="Hrazdan">Կոտայք</option>
+                    <option value="Gavar">Գեղարքունիք</option>
+                    <option value="Armavir">Արմավիր</option>
+                    <option value="Artshat">Արարատ</option>
+                    <option value="Exegnadzor">Վայուց Ձոր</option>
+                    <option value="Kapan">Սյունիք</option>
+                </select>
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" asp-action="History"   value="Փնտրել"  class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

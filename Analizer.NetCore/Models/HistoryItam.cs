@@ -14,4 +14,6 @@ namespace Analizer.NetCore.Models
         [Required]
         public string City { get; set; }
     }
+
+    
 }
