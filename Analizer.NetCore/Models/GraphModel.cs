@@ -11,13 +11,13 @@ namespace Analizer.NetCore.Models
     {
         public GraphModel(string d,int lev)
         {
-            Day = d;
-            Level = lev;
+            Label = d;
+            Y = lev;
         }
-        [DataMember(Name ="day")]
-        public string Day { get; set; }
+        [DataMember(Name = "label")]
+        public string Label { get; set; }
 
-        [DataMember(Name ="level")]
-        public int Level { get; set; }
+        [DataMember(Name ="y")]
+        public Nullable<double> Y { get; set; }
     }
 }

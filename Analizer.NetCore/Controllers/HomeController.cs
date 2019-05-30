@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Analizer.NetCore.Models;
 using Analizer.NetCore.Services;
+using Newtonsoft.Json;
 
 namespace Analizer.NetCore.Controllers
 {
@@ -27,6 +28,21 @@ namespace Analizer.NetCore.Controllers
         public IActionResult HistoryData()
         {
             return View(new HistoryItam());
+        }
+        
+        public IActionResult Graph(string city)
+        {
+            List<GraphModel> dataPoints1 = new List<GraphModel>();
+            List<FireRiskItam> itams =_meneger.GetCityItam(city).ToList();
+
+            foreach(var itam in itams)
+            {
+                dataPoints1.Add(new GraphModel($"{itam.Day.Day}/{itam.Day.Month}", itam.ClassOfFireRisk));
+            }
+
+            ViewBag.GraphModel = JsonConvert.SerializeObject(dataPoints1);
+
+            return View();
         }
 
         public IActionResult About()

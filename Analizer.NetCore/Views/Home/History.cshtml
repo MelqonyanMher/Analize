@@ -5,6 +5,7 @@
 }
 <h2 style="color:cadetblue; text-align-last:right">@Model[0].City.Name</h2>
 <h3 style="color:cadetblue; text-align-last:right">@Model[0].Day.Year</h3>
+<a asp-controller="Home" asp-action="Graph" asp-route-city="@(Model.FirstOrDefault().City.Name)">Drow Graph</a>
 
     @{
         <table    align="center" cellpadding="10" cellspacing="10">
