@@ -24,13 +24,13 @@
                     foreach (var itam in Model)
                     {
                         <tr class="rowColor_@(itam.Day.Day%2)">
-                            <td style="text-align:right;background-color:lightgray;border-collapse:collapse;border-right:1px solid grey">@itam.Day.Day/@itam.Day.Month</td>
-                            <td style="text-align:right;background-color:lightgray;border-collapse:collapse;border-right:1px solid grey">@itam.Temperature</td>
-                            <td style="text-align:right;background-color:lightgray;border-collapse:collapse;border-right:1px solid grey">@itam.DewPoint</td>
-                            <td style="text-align:right;background-color:lightgray;border-collapse:collapse;border-right:1px solid grey">@itam.CompIndicatorDay</td>
-                            <td style="text-align:right;background-color:lightgray;border-collapse:collapse;border-right:1px solid grey">@itam.Precipitation</td>
-                            <td style="text-align:right;background-color:lightgray;border-collapse:collapse;border-right:1px solid grey">@itam.CompIndicator</td>
-                            <td style="text-align:right;background-color:lightgray">@itam.ClassOfFireRisk</td>
+                            <td >@itam.Day.Day/@itam.Day.Month</td>
+                            <td >@itam.Temperature</td>
+                            <td >@itam.DewPoint</td>
+                            <td >@itam.CompIndicatorDay</td>
+                            <td >@itam.Precipitation</td>
+                            <td >@itam.CompIndicator</td>
+                            <td >@itam.ClassOfFireRisk</td>
                         </tr>
                     }
                 }

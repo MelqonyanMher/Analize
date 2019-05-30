@@ -1,0 +1,14 @@
+﻿.rowColor_0 {
+    background-color: lightgray;
+    text-align: center;
+    border-collapse: collapse;
+}
+.rowColor_1 {
+    background-color: darkgrey;
+    text-align: center;
+    border-collapse: collapse;
+    
+}
+th, td {
+    border-right: 1px solid grey
+}
