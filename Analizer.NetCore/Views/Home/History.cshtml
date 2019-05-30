@@ -3,37 +3,38 @@
 @{
     ViewData["Title"] = "Contact";
 }
-<h2>@Model[0].City.Name</h2>
-<h3>@Model[0].Day.Year</h3>
-@{ 
-    <table border="1">
-        <thead>
-            <tr>
-            <th>Օր</th>
-            <th>Ջերմացտիճան</th>
-            <th>Խոնավություն</th>
-            <th>Օրվա կայֆիցիենտը</th>
-            <th>Տաղում ՄՄ</th>
-            <th>Կայֆիցիենտ</th>
-            <th>Հրդեհավտանգություն</th>
-            </tr>
-        </thead>
-            <tbody>
+<h2 style="color:cadetblue; text-align-last:right">@Model[0].City.Name</h2>
+<h3 style="color:cadetblue; text-align-last:right">@Model[0].Day.Year</h3>
+
+    @{
+        <table    align="center" cellpadding="10" cellspacing="10">
+            <thead style="background-color:black;color:grey">
+                <tr>
+                    <th style="text-align:right;border-collapse:collapse;border-right:1px solid  grey">Օր</th>
+                    <th style="text-align:right;border-collapse:collapse;border-right:1px solid  grey">Ջերմացտիճան</th>
+                    <th style="text-align:right;border-collapse:collapse;border-right:1px solid  grey">Խոնավություն</th>
+                    <th style="text-align:right;border-collapse:collapse;border-right:1px solid  grey">Օրվա կայֆիցիենտը</th>
+                    <th style="text-align:right;border-collapse:collapse;border-right:1px solid grey">Տաղում ՄՄ</th>
+                    <th style="text-align:right;border-collapse:collapse;border-right:1px solid grey">Կայֆիցիենտ</th>
+                    <th>Հրդեհավտանգություն</th>
+                </tr>
+            </thead>
+            <tbody >
                 @{
                     foreach (var itam in Model)
                     {
-                        <tr>
-                        <td>@itam.Day.Day/@itam.Day.Month</td>
-                        <td>@itam.Temperature</td>
-                        <td>@itam.DewPoint</td>
-                        <td>@itam.CompIndicatorDay</td>
-                        <td>@itam.Precipitation</td>
-                        <td>@itam.CompIndicator</td>
-                        <td>@itam.ClassOfFireRisk</td>
+                        <tr class="rowColor_@(itam.Day.Day%2)">
+                            <td style="text-align:right;background-color:lightgray;border-collapse:collapse;border-right:1px solid grey">@itam.Day.Day/@itam.Day.Month</td>
+                            <td style="text-align:right;background-color:lightgray;border-collapse:collapse;border-right:1px solid grey">@itam.Temperature</td>
+                            <td style="text-align:right;background-color:lightgray;border-collapse:collapse;border-right:1px solid grey">@itam.DewPoint</td>
+                            <td style="text-align:right;background-color:lightgray;border-collapse:collapse;border-right:1px solid grey">@itam.CompIndicatorDay</td>
+                            <td style="text-align:right;background-color:lightgray;border-collapse:collapse;border-right:1px solid grey">@itam.Precipitation</td>
+                            <td style="text-align:right;background-color:lightgray;border-collapse:collapse;border-right:1px solid grey">@itam.CompIndicator</td>
+                            <td style="text-align:right;background-color:lightgray">@itam.ClassOfFireRisk</td>
                         </tr>
                     }
                 }
             </tbody>
-    </table>
-}
+        </table>
+    }
 
