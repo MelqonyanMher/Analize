@@ -27,31 +27,44 @@ namespace Analizer.NetCore.Services
                 _context.RemoveRange(otherYearInDb);
                 await _context.SaveChangesAsync();
             }
-
             else return;
         }
 
         public async Task GetDataAndFillDbAsync()
         {
-            FireRiskItam f = _context.Itams.OrderBy(itm => itm.Day).LastOrDefault();
+
+            FireRiskItam anyItam = _context.Itams.OrderBy(itm => itm.Day).LastOrDefault();
             DateTime? startDay = null;
-            if (f != null)
+            
+            if (anyItam != null)
             {
-                startDay = f.Day;
+                if (anyItam.Day.DayOfYear == DateTime.Now.DayOfYear)
+                {
+                    return;
+                }
+                startDay = anyItam.Day;
             }
 
-            List<DataItam> datas = _dBMeneger.GetElemsFromDb(startDay).ToList();
+            List<DataItam> datasFromDb = _dBMeneger.GetElemsFromDb(startDay).ToList();
+
+            if (datasFromDb == null)
+            {
+                return;
+            }
+
             List<FireRiskItam> addingItams = new List<FireRiskItam>();
 
-            var dt = datas.GroupBy(itm => itm.City);
+            var dt = datasFromDb.GroupBy(itm => itm.City);
             foreach (var groupedByCityItam in dt)
             {
                 var lastKPItam = _context.Itams.Include(itm => itm.City).OrderBy(itm => itm.Day).LastOrDefault(itm => itm.City.Name == groupedByCityItam.First().City);
                 var lastKP = 0.0;
+
                 if (lastKPItam != null)
                 {
                     lastKP = lastKPItam.CompIndicator;
                 }
+
                 foreach (var itam in groupedByCityItam)
                 {
                     var fri = new FireRiskItam
@@ -69,6 +82,7 @@ namespace Analizer.NetCore.Services
                         : fri.CompIndicator < 1001 ? 2
                         : fri.CompIndicator < 4001 ? 3
                         : fri.CompIndicator < 10001 ? 4 : 5);
+
                     addingItams.Add(fri);
                     lastKP = fri.CompIndicator;
                 }
@@ -79,13 +93,30 @@ namespace Analizer.NetCore.Services
 
         public async Task GetDataByYearAndFillDbAsync(int year)
         {
+            FireRiskItam anyItam = _context.Itams.FirstOrDefault(itm => itm.Day.Year == year);
+
+            if (anyItam != null)
+            {
+                return;
+            }
+
             List<DataItam> datas = _dBMeneger.GetElemsFromDbByYear(year).ToList();
+
+            if (datas.Count == 0)
+            {
+                return;
+            }
+
             List<FireRiskItam> addingItams = new List<FireRiskItam>();
             City[] citys = _context.Cities.ToArray();
+
             for (int i = 0; i < citys.Length; i++)
             {
-                var d = datas.Where(itm => itm.City == citys[i].Name).OrderBy(itm => itm.Day).ToArray();
+                var d = datas.Where(itm => itm.City == citys[i].Name)
+                             .OrderBy(itm => itm.Day)
+                             .ToArray();
                 var lastKP = 0.0;
+
                 for (int j = 0; j < d.Length; j++)
                 {
                     FireRiskItam itam = new FireRiskItam()
@@ -96,11 +127,12 @@ namespace Analizer.NetCore.Services
                         DewPoint = d[j].DewPoint,
                         Temperature = d[j].Temperature,
                         CompIndicatorDay = d[j].Temperature * (d[j].Temperature - d[j].DewPoint),
-                        CompIndicator = d[j].Temperature * (d[j].Temperature - d[j].DewPoint) + (d[j].Precipitation > 3 ? 0 : lastKP)
+                        CompIndicator = d[j].Temperature 
+                                            * (d[j].Temperature - d[j].DewPoint) 
+                                            + (d[j].Precipitation > 3 ? 0 : lastKP)
                     };
                     lastKP = itam.CompIndicator;
                     addingItams.Add(itam);
-
                 }
             }
             await _context.Itams.AddRangeAsync(addingItams);

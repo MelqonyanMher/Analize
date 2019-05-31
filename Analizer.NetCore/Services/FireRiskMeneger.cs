@@ -11,6 +11,7 @@ namespace Analizer.NetCore.Services
     {
         private FireRiskContext _context;
         private IDbFillMeneger _dbFill;
+
         public FireRiskMeneger(FireRiskContext context,IDbFillMeneger dataFill)
         {
             _context = context;
@@ -25,12 +26,16 @@ namespace Analizer.NetCore.Services
         public  IEnumerable<FireRiskItam> GetCityItam(string cityName)
         {
              _dbFill.GetDataAndFillDbAsync().Wait();
+
              return _context.Itams.Include(itm => itm.City)
-                .Where(itm => itm.City.Name.ToUpper() == cityName.ToUpper());
+                .Where(itm => itm.City.Name.ToUpper() == cityName.ToUpper()
+                && itm.Day.Year == DateTime.Now.Year);
         }
+
         public IEnumerable<FireRiskItam> GetCityItam(string cityName,int year)
         {
             _dbFill.GetDataByYearAndFillDbAsync(year).Wait();
+
             return _context.Itams.Include(itm => itm.City)
                 .Where(itm => itm.City.Name.ToUpper() == cityName.ToUpper() 
                 && itm.Day.Year==year)

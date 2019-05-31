@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Analizer.NetCore.Models;
 using Analizer.NetCore.Services;
@@ -21,7 +20,7 @@ namespace Analizer.NetCore.Controllers
         public IActionResult Index()
         {
             _meneger.DeleteHistory();
-            List<FireRiskItam> model = _meneger.GetToDayItams().OrderBy(itm=>itm.City.Name).ToList();
+            List<FireRiskItam> model = _meneger.GetToDayItams().OrderBy(itm => itm.City.Name).ToList();
             return View(model);
         }
 
@@ -29,34 +28,40 @@ namespace Analizer.NetCore.Controllers
         {
             return View(new HistoryItam());
         }
-        
-        public IActionResult Graph(string city)
+
+        public IActionResult Graph(string city, int year)
         {
             List<GraphModel> dataPoints1 = new List<GraphModel>();
-            List<FireRiskItam> itams =_meneger.GetCityItam(city).ToList();
-
-            foreach(var itam in itams)
+            List<FireRiskItam> itams = new List<FireRiskItam>();
+            if (year == DateTime.Now.Year)
+            {
+                itams = _meneger.GetCityItam(city).ToList();
+            }
+            else
+            {
+                itams = _meneger.GetCityItam(city, year).ToList();
+            }
+            foreach (var itam in itams)
             {
                 dataPoints1.Add(new GraphModel($"{itam.Day.Day}/{itam.Day.Month}", itam.ClassOfFireRisk));
             }
 
+
             ViewBag.GraphModel = JsonConvert.SerializeObject(dataPoints1);
 
-            return View();
+            return View(new HistoryItam() { City = city, Year = year });
         }
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your application description page.";
-
             return View();
         }
 
         [HttpPost]
         public IActionResult History(HistoryItam itam)
         {
-            ViewData["Message"] = "Your contact page.";
             List<FireRiskItam> model = null;
+
             if (itam.Year == DateTime.Now.Year)
             {
                 model = _meneger.GetCityItam(itam.City).ToList();
@@ -68,26 +73,11 @@ namespace Analizer.NetCore.Controllers
 
             return View(model);
         }
-        public IActionResult History(int year = 2019, string city = "Yerevan")
-        {
-            ViewData["Message"] = "Your contact page.";
-            List<FireRiskItam> model;
-            if(year == DateTime.Now.Year)
-            {
-                model = _meneger.GetCityItam(city).ToList();
-            }
-            else
-            {
-                model = _meneger.GetCityItam(city, year).ToList();
-            }
-            
-            return View(model);
-        }
 
-        public IActionResult Privacy()
+        public IActionResult History(string city = "Yerevan")
         {
-            _meneger.DeleteHistory();
-            List<FireRiskItam> model = _meneger.GetToDayItams().ToList();
+            var model = _meneger.GetCityItam(city).ToList();
+
             return View(model);
         }
 

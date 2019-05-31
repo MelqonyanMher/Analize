@@ -14,32 +14,39 @@ namespace Analizer.NetCore.Services
         {
             _context = context;
         }
+
         public IEnumerable<DataItam> GetElemsFromDb(DateTime? startDay)
         {
-            List<DataItam> data = new List<DataItam>();
-            IQueryable<IGrouping<int,Hidromet>> dt;
+
+            List<DataItam> returnData = new List<DataItam>();
+            IQueryable<IGrouping<int, Hidromet>> dbData;
+
             if (startDay != null)
             {
-                 dt = _context.Hidromet.Where
-                    (itm =>itm.Date.Value.Year > startDay.Value.Year
-                    && itm.Date.Value.DayOfYear > startDay.Value.DayOfYear
-                    &&  itm.Date.Value.Month <9)
-                    .GroupBy(itm=>itm.Date.Value.DayOfYear);
+                if (startDay.Value.DayOfYear == DateTime.Now.DayOfYear)
+                {
+                    return null;
+                }
+                dbData = _context.Hidromet.Where
+                   (itm => itm.Date.Value.Year == startDay.Value.Year
+                   && itm.Date.Value.DayOfYear > startDay.Value.DayOfYear
+                   && itm.Date.Value.Month < 9)
+                   .GroupBy(itm => itm.Date.Value.DayOfYear);
             }
             else
             {
-                dt = _context.Hidromet.Where
+                dbData = _context.Hidromet.Where
                     (itm => itm.Date.Value.Year == DateTime.Now.Year
                     && itm.Date.Value.Month > 5
                     && itm.Date.Value.Month < 9)
-                    .GroupBy(itm=>itm.Date.Value.DayOfYear);
+                    .GroupBy(itm => itm.Date.Value.DayOfYear);
             }
-            foreach (var dayGrupItam in dt)
+            foreach (var dayGrupItam in dbData)
             {
                 var dtGroupedCity = dayGrupItam.GroupBy(itm => itm.City);
                 foreach (var itam in dtGroupedCity)
                 {
-                    data.Add(new DataItam
+                    returnData.Add(new DataItam
                     {
                         City = itam.First().City,
                         Temperature = itam.Single(itm => itm.Date.Value.Hour == 12).Temperature,
@@ -49,20 +56,31 @@ namespace Analizer.NetCore.Services
                     });
                 }
             }
-            return data;
+            return returnData;
         }
 
         public IEnumerable<DataItam> GetElemsFromDbByYear(int year)
         {
-            List<DataItam> data = new List<DataItam>();
-            var dt = _context.Hidromet.Where(itm => itm.Date.Value.Year == year && itm.Date.Value.Month > 5 && itm.Date.Value.Month < 9).GroupBy(itm => itm.Date.Value.DayOfYear);
+            List<DataItam> returnData = new List<DataItam>();
+            IQueryable<IGrouping<int, Hidromet>> dbData;
 
-            foreach (var dayGrupItam in dt)
+            dbData = _context.Hidromet.Where
+               (itm => itm.Date.Value.Year == year
+               && itm.Date.Value.Month>5
+               && itm.Date.Value.Month < 9)
+               .GroupBy(itm => itm.Date.Value.DayOfYear);
+
+            if (dbData.Count() == 0)
+            {
+                return null;
+            }
+
+            foreach (var dayGrupItam in dbData)
             {
                 var dtGroupedCity = dayGrupItam.GroupBy(itm => itm.City);
                 foreach (var itam in dtGroupedCity)
                 {
-                    data.Add(new DataItam
+                    returnData.Add(new DataItam
                     {
                         City = itam.First().City,
                         Temperature = itam.Single(itm => itm.Date.Value.Hour == 12).Temperature,
@@ -72,7 +90,7 @@ namespace Analizer.NetCore.Services
                     });
                 }
             }
-            return data;
+            return returnData;
         }
     }
 }

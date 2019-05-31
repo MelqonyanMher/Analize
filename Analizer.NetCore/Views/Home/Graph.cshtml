@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Analizer.NetCore.Models.HistoryItam
+
+@{
     Layout = null;
 }
 
@@ -7,7 +9,7 @@
 <head>
     <script>
 window.onload = function () {
- 
+
 var chart = new CanvasJS.Chart("chartContainer", {
 	animationEnabled: true,
 	title: {
@@ -18,14 +20,14 @@ var chart = new CanvasJS.Chart("chartContainer", {
 	},
 	axisY: {
         title: "Risk level",
-		
+
 		includeZero: false
 	},
 	data: [{
 		type: "spline",
 		xValueType: "dateTime",
 		xValueFormatString: "DD MMM",
-							
+
 		dataPoints: @Html.Raw(ViewBag.GraphModel)
 	}]
 });
@@ -37,5 +39,6 @@ chart.render();
 <body>
     <div id="chartContainer" style="height: 370px; width: 100%;"></div>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <div style="text-align-last:right">@($"{Model.City}{Model.Year}")</div>
 </body>
 </html>              
