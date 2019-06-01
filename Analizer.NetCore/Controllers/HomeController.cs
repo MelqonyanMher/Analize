@@ -74,10 +74,17 @@ namespace Analizer.NetCore.Controllers
             return View(model);
         }
 
-        public IActionResult History(string city = "Yerevan")
+        public IActionResult History(string city = "Yerevan",int year=2019)
         {
-            var model = _meneger.GetCityItam(city).ToList();
-
+            List<FireRiskItam> model;
+            if (year == DateTime.Now.Year)
+            {
+                 model = _meneger.GetCityItam(city).ToList();
+            }
+            else
+            {
+                model = _meneger.GetCityItam(city, year).ToList();
+            }
             return View(model);
         }
 

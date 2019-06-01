@@ -2782,7 +2782,7 @@ select[multiple].input-lg {
   position: relative;
 }
 .has-feedback .form-control {
-  padding-right: 42.5px;
+  padding-right: 142.5px;
 }
 .form-control-feedback {
   position: absolute;
@@ -2837,7 +2837,7 @@ select[multiple].input-lg {
   background-color: #dff0d8;
   border-color: #3c763d;
 }
-.has-success .form-control-feedback {
+.has-success .-control-feedback {
   color: #3c763d;
 }
 .has-warning .help-block,

@@ -132,6 +132,11 @@ namespace Analizer.NetCore.Services
                                             + (d[j].Precipitation > 3 ? 0 : lastKP)
                     };
                     lastKP = itam.CompIndicator;
+                    itam.ClassOfFireRisk = (byte)(itam.CompIndicator < 301 ? 1
+                        : itam.CompIndicator < 1001 ? 2
+                        : itam.CompIndicator < 4001 ? 3
+                        : itam.CompIndicator < 10001 ? 4 : 5);
+
                     addingItams.Add(itam);
                 }
             }

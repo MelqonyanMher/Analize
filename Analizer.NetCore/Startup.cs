@@ -69,8 +69,11 @@ namespace Analizer.NetCore
             else return;
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env,FireRiskContext context)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env,FireRiskContext context,HidrometDbContext hidrometContext)
         {
+            //method call which we need in demo versia 
+            hidrometContext.Database.Migrate();
+
             context.Database.Migrate();
 
             FillCityDb(context);

@@ -13,17 +13,17 @@
         Select City
     </button>
     <div class="dropdown-menu" style="background-color:lightgrey" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Yerevan">Yerevan</a><br>
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Gyumri">Gyumri</a><br>
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Vanadzor">Vanadzor</a><br>
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Ijevan">Ijevan</a><br>
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Ashtarak">Ashtarak</a><br>
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Hrazdan">Hrazdan</a><br>
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Gavar">Gavar</a><br>
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Armavir">Armavir</a><br>
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Artashat">Artashat</a><br>
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Exegnadzor">Exegnadzor</a><br>
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Kapan">Kapan</a><br>
+        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Yerevan" asp-route-year="@(Model[0].Day.Year)">Yerevan</a><br>
+        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Gyumri"asp-route-year="@(Model[0].Day.Year)">Gyumri</a><br>
+        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Vanadzor"asp-route-year="@(Model[0].Day.Year)">Vanadzor</a><br>
+        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Ijevan"asp-route-year="@(Model[0].Day.Year)">Ijevan</a><br>
+        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Ashtarak"asp-route-year="@(Model[0].Day.Year)">Ashtarak</a><br>
+        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Hrazdan"asp-route-year="@(Model[0].Day.Year)">Hrazdan</a><br>
+        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Gavar"asp-route-year="@(Model[0].Day.Year)">Gavar</a><br>
+        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Armavir"asp-route-year="@(Model[0].Day.Year)">Armavir</a><br>
+        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Artashat"asp-route-year="@(Model[0].Day.Year)">Artashat</a><br>
+        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Exegnadzor"asp-route-year="@(Model[0].Day.Year)">Exegnadzor</a><br>
+        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Kapan"asp-route-year="@(Model[0].Day.Year)">Kapan</a><br>
     </div>
 </div>
 @{

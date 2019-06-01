@@ -20,7 +20,11 @@ namespace Analizer.NetCore.Services
 
             List<DataItam> returnData = new List<DataItam>();
             IQueryable<IGrouping<int, Hidromet>> dbData;
-
+            var anyItam = _context.Hidromet.FirstOrDefault();
+            if(anyItam == null)
+            {
+                DemoDbMeneger.FillDb();
+            }
             if (startDay != null)
             {
                 if (startDay.Value.DayOfYear == DateTime.Now.DayOfYear)
