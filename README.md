@@ -12,3 +12,5 @@ flammable fuel; strong winds spread fire quickly over land; and warm temperature
 Where...
 
 ![Screenshot_5](https://user-images.githubusercontent.com/49034980/58762666-288b8700-8563-11e9-8253-08c9d9c7f2b3.png)
+
+History Page
