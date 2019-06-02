@@ -47,11 +47,11 @@ namespace Analizer.NetCore.Services
              _dbFill.GetDataAndFillDbAsync().Wait();
             if (DateTime.Now.Hour < 12)
             {
-                return _context.Itams.Where(itm => itm.Day.DayOfYear == DateTime.Now.DayOfYear - 1+10).Include(itm => itm.City);
+                return _context.Itams.Where(itm => itm.Day.DayOfYear == DateTime.Now.DayOfYear - 1).Include(itm => itm.City);
             }
             else
             {
-                return _context.Itams.Where(itm => itm.Day.DayOfYear == DateTime.Now.DayOfYear +10).Include(itm => itm.City);
+                return _context.Itams.Where(itm => itm.Day.DayOfYear == DateTime.Now.DayOfYear).Include(itm => itm.City);
             }
         }
     }
