@@ -3,58 +3,68 @@
 @{
     ViewData["Title"] = "Contact";
 }
-<div style="color:cadetblue; text-align-last:right">
-    <h2>@Model[0].City.Name</h2>
-    <h3>@Model[0].Day.Year</h3>
-    <a asp-controller="Home" asp-action="Graph" asp-route-city="@(Model.FirstOrDefault().City.Name)" asp-route-year="@(Model.FirstOrDefault().Day.Year)">Drow Graph</a>
-</div>
-<div class="dropdown">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Select City
-    </button>
-    <div class="dropdown-menu" style="background-color:lightgrey" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Yerevan" asp-route-year="@(Model[0].Day.Year)">Yerevan</a><br>
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Gyumri"asp-route-year="@(Model[0].Day.Year)">Gyumri</a><br>
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Vanadzor"asp-route-year="@(Model[0].Day.Year)">Vanadzor</a><br>
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Ijevan"asp-route-year="@(Model[0].Day.Year)">Ijevan</a><br>
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Ashtarak"asp-route-year="@(Model[0].Day.Year)">Ashtarak</a><br>
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Hrazdan"asp-route-year="@(Model[0].Day.Year)">Hrazdan</a><br>
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Gavar"asp-route-year="@(Model[0].Day.Year)">Gavar</a><br>
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Armavir"asp-route-year="@(Model[0].Day.Year)">Armavir</a><br>
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Artashat"asp-route-year="@(Model[0].Day.Year)">Artashat</a><br>
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Exegnadzor"asp-route-year="@(Model[0].Day.Year)">Exegnadzor</a><br>
-        <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Kapan"asp-route-year="@(Model[0].Day.Year)">Kapan</a><br>
-    </div>
-</div>
 @{
-    <table align="center" cellpadding="10" cellspacing="10">
-        <thead style="background-color:black;color:grey">
-            <tr>
-                <th style="text-align:right;border-collapse:collapse;border-right:1px solid  grey">Օր</th>
-                <th style="text-align:right;border-collapse:collapse;border-right:1px solid  grey">Ջերմացտիճան</th>
-                <th style="text-align:right;border-collapse:collapse;border-right:1px solid  grey">Խոնավություն</th>
-                <th style="text-align:right;border-collapse:collapse;border-right:1px solid  grey">Օրվա կայֆիցիենտը</th>
-                <th style="text-align:right;border-collapse:collapse;border-right:1px solid grey">Տաղում ՄՄ</th>
-                <th style="text-align:right;border-collapse:collapse;border-right:1px solid grey">Կայֆիցիենտ</th>
-                <th>Հրդեհավտանգություն</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                foreach (var itam in Model)
-                {
-                    <tr class="rowColor_@(itam.Day.Day%2)">
-                        <td>@itam.Day.Day/@itam.Day.Month</td>
-                        <td>@itam.Temperature</td>
-                        <td>@itam.DewPoint</td>
-                        <td>@itam.CompIndicatorDay</td>
-                        <td>@itam.Precipitation</td>
-                        <td>@itam.CompIndicator</td>
-                        <td>@itam.ClassOfFireRisk</td>
-                    </tr>
+    if (Model.Count == 1 && Model[0].ClassOfFireRisk > 5)
+    {
+        <div style="text-align-last: center">
+            <h4>@Model[0].City.Name - @Model[0].Day.Year data are not founded</h4>
+            <p>Please check your DataBase and try again :)))</p>
+        </div>
+    }
+    else
+    {
+        <div style="color:cadetblue; text-align-last:right">
+            <h2>@Model[0].City.Name</h2>
+            <h3>@Model[0].Day.Year</h3>
+            <a asp-controller="Home" asp-action="Graph" asp-route-city="@(Model.FirstOrDefault().City.Name)" asp-route-year="@(Model.FirstOrDefault().Day.Year)">Drow Graph</a>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Select City
+            </button>
+            <div class="dropdown-menu" style="background-color:lightgrey" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Yerevan" asp-route-year="@(Model[0].Day.Year)">Yerevan</a><br>
+                <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Gyumri" asp-route-year="@(Model[0].Day.Year)">Gyumri</a><br>
+                <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Vanadzor" asp-route-year="@(Model[0].Day.Year)">Vanadzor</a><br>
+                <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Ijevan" asp-route-year="@(Model[0].Day.Year)">Ijevan</a><br>
+                <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Ashtarak" asp-route-year="@(Model[0].Day.Year)">Ashtarak</a><br>
+                <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Hrazdan" asp-route-year="@(Model[0].Day.Year)">Hrazdan</a><br>
+                <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Gavar" asp-route-year="@(Model[0].Day.Year)">Gavar</a><br>
+                <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Armavir" asp-route-year="@(Model[0].Day.Year)">Armavir</a><br>
+                <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Artashat" asp-route-year="@(Model[0].Day.Year)">Artashat</a><br>
+                <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Exegnadzor" asp-route-year="@(Model[0].Day.Year)">Exegnadzor</a><br>
+                <a class="dropdown-item" style="text-align-last:right" asp-controller="Home" asp-action="History" asp-route-city="Kapan" asp-route-year="@(Model[0].Day.Year)">Kapan</a><br>
+            </div>
+        </div>
+        <table align="center" cellpadding="10" cellspacing="10">
+            <thead style="background-color:black;color:grey">
+                <tr>
+                    <th style="text-align:right;border-collapse:collapse;border-right:1px solid  grey">Օր</th>
+                    <th style="text-align:right;border-collapse:collapse;border-right:1px solid  grey">Ջերմացտիճան</th>
+                    <th style="text-align:right;border-collapse:collapse;border-right:1px solid  grey">Խոնավություն</th>
+                    <th style="text-align:right;border-collapse:collapse;border-right:1px solid  grey">Օրվա կայֆիցիենտը</th>
+                    <th style="text-align:right;border-collapse:collapse;border-right:1px solid grey">Տաղում ՄՄ</th>
+                    <th style="text-align:right;border-collapse:collapse;border-right:1px solid grey">Կայֆիցիենտ</th>
+                    <th>Հրդեհավտանգություն</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (var itam in Model)
+                    {
+                        <tr class="rowColor_@(itam.Day.Day%2)">
+                            <td>@itam.Day.Day/@itam.Day.Month</td>
+                            <td>@itam.Temperature</td>
+                            <td>@itam.DewPoint</td>
+                            <td>@itam.CompIndicatorDay</td>
+                            <td>@itam.Precipitation</td>
+                            <td>@itam.CompIndicator</td>
+                            <td>@itam.ClassOfFireRisk</td>
+                        </tr>
+                    }
                 }
-            }
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    }
 }
 

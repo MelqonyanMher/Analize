@@ -60,6 +60,10 @@ namespace Analizer.NetCore.Services
                     });
                 }
             }
+            if(returnData.Count == 0)
+            {
+                return null;
+            }
             return returnData;
         }
 

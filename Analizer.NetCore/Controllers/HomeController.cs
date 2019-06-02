@@ -70,7 +70,14 @@ namespace Analizer.NetCore.Controllers
             {
                 model = _meneger.GetCityItam(itam.City, itam.Year).ToList();
             }
-
+            if(model.Count == 0)
+            {
+                model.Add(new FireRiskItam() {
+                    City = new City() { Name = itam.City },
+                    Day = new DateTime(itam.Year, 1, 1),
+                    ClassOfFireRisk = (byte)11
+                });
+            }
             return View(model);
         }
 
@@ -84,6 +91,15 @@ namespace Analizer.NetCore.Controllers
             else
             {
                 model = _meneger.GetCityItam(city, year).ToList();
+            }
+            if (model.Count == 0)
+            {
+                model.Add(new FireRiskItam()
+                {
+                    City = new City() { Name = city },
+                    Day = new DateTime(year, 1, 1),
+                    ClassOfFireRisk = (byte)11
+                });
             }
             return View(model);
         }

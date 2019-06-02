@@ -1,0 +1,22 @@
+﻿h4{
+    text-align-last:center
+}
+img{
+    
+ }
+.big_img {
+    width: 90%;
+    margin: auto;
+    padding: 10px;
+    padding-left: 100px;
+}
+.firct_img {
+    margin: auto;
+    padding: 10px;
+    padding-left: 100px;
+    width:90%
+}
+.source {
+    text-align-last: right
+}
+

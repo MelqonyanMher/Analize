@@ -38,20 +38,21 @@ namespace Analizer.NetCore.Services
             
             if (anyItam != null)
             {
-                if (anyItam.Day.DayOfYear == DateTime.Now.DayOfYear)
+                if (anyItam.Day.DayOfYear >= DateTime.Now.DayOfYear)
                 {
                     return;
                 }
                 startDay = anyItam.Day;
             }
 
-            List<DataItam> datasFromDb = _dBMeneger.GetElemsFromDb(startDay).ToList();
+            var dataFromDb = _dBMeneger.GetElemsFromDb(startDay);
 
-            if (datasFromDb == null)
+            if (dataFromDb == null)
             {
                 return;
             }
 
+            var datasFromDb = dataFromDb.ToList();
             List<FireRiskItam> addingItams = new List<FireRiskItam>();
 
             var dt = datasFromDb.GroupBy(itm => itm.City);
@@ -100,13 +101,13 @@ namespace Analizer.NetCore.Services
                 return;
             }
 
-            List<DataItam> datas = _dBMeneger.GetElemsFromDbByYear(year).ToList();
+            var data = _dBMeneger.GetElemsFromDbByYear(year);
 
-            if (datas.Count == 0)
+            if (data == null)
             {
                 return;
             }
-
+            List<DataItam> datas = data.ToList();
             List<FireRiskItam> addingItams = new List<FireRiskItam>();
             City[] citys = _context.Cities.ToArray();
 
