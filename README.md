@@ -1,4 +1,4 @@
-How you know we depend on forests for our survival, from the air we breathe to the wood we use. 
+  How you know we depend on forests for our survival, from the air we breathe to the wood we use. 
 Besides providing habitats for animals and livelihoods for humans, 
 forests also offer watershed protection, prevent soil erosion and mitigate climate change.Yet,
 four out of five wildfires are started by people, nature is usually more than happy to help fan the flames. 
